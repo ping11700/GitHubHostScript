@@ -78,11 +78,10 @@ if ((Edit-Hosts) -eq $false)
 }
 else
 {
-    Write-Host "`nEdit-Hosts completed." -Foreground $LogForegroundColorEnd
-
     Clear-DnsClientCache
 
-    Start-Process  www.GitHub.com
+    Start-Process  https://github.com
+    #Start-Process  https://github.com/ping11700/LOLKit
 
     Write-Host "`nDone." -Foreground $LogForegroundColorEnd
 
