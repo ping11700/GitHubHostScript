@@ -80,9 +80,9 @@ else
 {
     Write-Host "`nEdit-Hosts completed." -Foreground $LogForegroundColorEnd
 
-    ipconfig /flushdns  
+    Clear-DnsClientCache
 
-    Start-Process -FilePath www.GitHub.com
+    Start-Process  www.GitHub.com
 
     Write-Host "`nDone." -Foreground $LogForegroundColorEnd
 
