@@ -23,6 +23,7 @@ if((Test-Admin) -eq $false)
 {
     #提升权限
     Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -noexit -ExecutionPolicy Bypass -file "{0}"' -f $PSCommandPath)
+
     Exit
 }
 
@@ -60,33 +61,32 @@ Function Edit-Hosts
     {
         Write-Host "`Edit-Hosts Failed, Exception:" $Error[0] -Foreground $LogForegroundColorWarning
          
-		"`nAny key to exit." 
-		[Console]::Readkey() | Out-Null 
-		Exit
+		Return $false
     }
-
-    Write-Host "`nLastExitCode: $LastExitCode" -Foreground $LogForegroundColorWarning
-
-
-    if($LastExitCode -eq 0) 
-	{
-		Write-Host "`nEdit-Hosts completed." -Foreground $LogForegroundColorEnd
-	}
-	else
-	{
-		Write-Host "`nEdit-Hosts Failed" -Foreground $LogForegroundColorWarning
-		"`nAny key to exit." 
-		[Console]::Readkey() | Out-Null 
-		Exit
-	}
+    
+    Return $true
 }
 
-Edit-Hosts
+if ((Edit-Hosts) -eq $false)
+{
+    Write-Host "`nEdit-Hosts Failed" -Foreground $LogForegroundColorWarning
+    #Write-Host "`n请联系作者" -Foreground $LogForegroundColorWarning
 
-ipconfig /flushdns  
+    "`nAny key to exit." 
+    [Console]::Readkey() | Out-Null 
+    Exit
+}
+else
+{
+    Write-Host "`nEdit-Hosts completed." -Foreground $LogForegroundColorEnd
 
-Write-Host "`nDone." -Foreground $LogForegroundColorEnd
+    ipconfig /flushdns  
+
+    Start-Process -FilePath www.GitHub.com
+
+    Write-Host "`nDone." -Foreground $LogForegroundColorEnd
+
+    Exit
+}
 
 
-Start-Process -FilePath www.GitHub.com
-Exit
