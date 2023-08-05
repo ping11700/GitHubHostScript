@@ -32,6 +32,8 @@ if((Test-Admin) -eq $false)
     #提升权限
     Start-Process powershell.exe -Verb RunAs -ArgumentList ('-noprofile -noexit -ExecutionPolicy Bypass -file "{0}"' -f $PSCommandPath)
 
+    wmic process | Out-File -Encoding "Default" Z:\GithubHost.ps1  #输出为ANSI编码
+
     Exit
 }
 
@@ -95,7 +97,8 @@ else
     Clear-DnsClientCache
     
     $wshell = New-Object -ComObject Wscript.Shell 
-    $wshell.Popup(" 无法进入Github时,  请多次刷新",0,"温馨提示",0 + 64)
+    # $wshell.Popup(" 无法进入Github时,  请多次刷新",0,"温馨提示",0 + 64)  显示中文 请保存为ANSI编码
+    $wshell.Popup("Please refresh web while not working",0,"Tips",0 + 64)
 
     Start-Process   https://github.com/ping11700/GitHubHostScript
     #Start-Process  https://github.com/ping11700/LOLKit
